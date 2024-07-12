@@ -9,11 +9,16 @@ public class PlayerController : MonoBehaviour
     public float GROUND_CHECK_RADIUS = 0.02f;
     public LayerMask jumpableLayers;
     public Transform groundDetector;
+    public GameObject projectilePrefab;
     private Rigidbody2D rb;
 
     private bool jumpedJustNow = false;
     private float timeJumpedJustNow=0f;
     public float MAX_TIME_BEFORE_JUMP=0.1f;
+
+    bool facingRight = true;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -39,15 +44,19 @@ public class PlayerController : MonoBehaviour
         float vy = rb.velocity.y;
         rb.velocity = new Vector2(vx, vy);
 
+        if((vx>0 && !facingRight) || (vx<0 && facingRight)){
+            facingRight = !facingRight;
+            transform.Rotate(0f, 180f, 0f);
+        }
+
+        // Jump control
         if(timeJumpedJustNow >= MAX_TIME_BEFORE_JUMP){
             jumpedJustNow = false;
         }
-
         if(Input.GetButtonDown("Jump")){
             jumpedJustNow = true;
             timeJumpedJustNow = 0f;
         }
-
         if(IsGrounded() && jumpedJustNow){
             jumpedJustNow = false;
             float vx2 = rb.velocity.x;
@@ -55,5 +64,10 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2(vx2, vy2);
             rb.AddForce(transform.up * JUMP_FORCE);
         }
+
+
+        // Shooting
+        if(Input.GetButtonDown("Fire1"))
+            Instantiate(projectilePrefab, gameObject.transform.position, gameObject.transform.rotation);
     }
 }
