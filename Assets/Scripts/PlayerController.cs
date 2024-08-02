@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public LayerMask jumpableLayers;
     public Transform groundDetector;
     public GameObject projectilePrefab;
+    public GameObject laserPrefab;
     private Rigidbody2D rb;
 
     private bool jumpedJustNow = false;
@@ -69,5 +70,9 @@ public class PlayerController : MonoBehaviour
         // Shooting
         if(Input.GetButtonDown("Fire1"))
             Instantiate(projectilePrefab, gameObject.transform.position, gameObject.transform.rotation);
+
+        // Shooting
+        if(Input.GetButtonDown("Fire2"))
+            Instantiate(laserPrefab, gameObject.transform.position, gameObject.transform.rotation);
     }
 }

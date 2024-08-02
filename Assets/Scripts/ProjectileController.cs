@@ -5,6 +5,7 @@ using UnityEngine;
 public class ProjectileController : MonoBehaviour
 {
     public float projectileSpeed = 30f;
+    public float projectileDamage = 4f;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +22,11 @@ public class ProjectileController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D hitInfo)
     {
+        EnemyController enemy = hitInfo.GetComponent<EnemyController>();
+
+        if (enemy)
+            enemy.TakeDamage(projectileDamage);
+
         if(hitInfo.name != "Player"){
             Destroy(gameObject);
         }

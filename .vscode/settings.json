@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Platformer2d.sln"
+    "dotnet.defaultSolution": "Plataforma2d.sln"
 }
