@@ -17,6 +17,9 @@ public class PlayerController : MonoBehaviour
     private float timeJumpedJustNow=0f;
     public float MAX_TIME_BEFORE_JUMP=0.1f;
 
+    //Animation
+    private Animator animator;
+
     bool facingRight = true;
 
 
@@ -25,6 +28,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     bool IsGrounded(){
@@ -45,6 +49,8 @@ public class PlayerController : MonoBehaviour
         float vy = rb.velocity.y;
         rb.velocity = new Vector2(vx, vy);
 
+        animator.SetFloat("speed", Mathf.Abs(vx));
+
         if((vx>0 && !facingRight) || (vx<0 && facingRight)){
             facingRight = !facingRight;
             transform.Rotate(0f, 180f, 0f);
@@ -58,7 +64,9 @@ public class PlayerController : MonoBehaviour
             jumpedJustNow = true;
             timeJumpedJustNow = 0f;
         }
-        if(IsGrounded() && jumpedJustNow){
+        bool isGrounded = IsGrounded();
+        animator.SetBool("isJumping", !isGrounded);
+        if(isGrounded && jumpedJustNow){
             jumpedJustNow = false;
             float vx2 = rb.velocity.x;
             float vy2 = 0.0f;
