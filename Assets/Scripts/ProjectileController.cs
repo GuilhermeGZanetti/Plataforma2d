@@ -7,6 +7,8 @@ public class ProjectileController : MonoBehaviour
     public float projectileSpeed = 30f;
     public float projectileDamage = 4f;
 
+    public GameObject explosionPrefab;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +30,9 @@ public class ProjectileController : MonoBehaviour
             enemy.TakeDamage(projectileDamage);
 
         if(hitInfo.name != "Player"){
+            Instantiate(explosionPrefab,
+                gameObject.transform.position,
+                gameObject.transform.rotation);
             Destroy(gameObject);
         }
     }
